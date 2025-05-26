@@ -181,16 +181,28 @@ fundamental6=['assets', 'assets_curr', 'bookvalue_ps', 'capex', 'cash', 'cash_st
 'fnd6_aldo', 'fnd6_am', 'fnd6_aodo', 'fnd6_aox', 'fnd6_aqc', 'fnd6_aqi', 'fnd6_aqs', 'fnd6_beta', 'fnd6_capxs', 'fnd6_capxv', 'fnd6_caxts', 
 'fnd6_ceql', 'fnd6_ch', 'fnd6_ci', 'fnd6_cibegni', 'fnd6_cicurr', 'fnd6_cidergl', 'fnd6_cik', 'fnd6_cimii', 'fnd6_ciother', 'fnd6_cipen']
 
-
+fundalpha=['assets','liabilities','sales','operating_income','capex','debt','ebit','ebitda','equity','enterprise_value','eps','debt_lt','assets_curr','goodwill','cash','income','revenue','cogs','cashflow_op','bookvalue_ps',
+'ppent','operating_expense','inventory','cashflow','sga_expense','debt_st','cash_st','receivable','return_equity','retained_earnings','fnd6_fopo','income_tax','liabilities_curr','pretax_income','cashflow_fin','income_beforeextra','current_ratio','sales_growth','return_assets','inventory_turnover',
+'sales_ps','cashflow_dividends','invested_capital','fnd6_drlt','cashflow_invst','employee','working_capital','depre_amort','fnd6_ivaco','fnd6_drc','fnd6_mrcta','fnd6_fatl','rd_expense','interest_expense','fnd6_ciother','fnd6_acdo','fnd6_acodo','fnd6_adesinda_curcd','fnd6_newa2v1300_rdipeps','fnd6_ci',
+'fnd6_ceql','fnd6_acox','fnd6_newqv1300_ancq','fnd6_zipcode','fnd6_intc','fnd6_capxv','fnd6_rea','fnd6_itci','fnd6_lcox','fnd6_state','fnd6_recd','fnd6_am','fnd6_ch','fnd6_xrent','fnd6_newqv1300_drltq','fnd6_txo','fnd6_exre','fnd6_cik','fnd6_newqv1300_drcq','fnd6_newqv1300_acomincq',
+'fnd6_city','fnd6_weburl','fnd6_mfmq_cshprq','fnd6_newa2v1300_ppent','fnd6_cshtrq','fnd6_cshtrq','fnd6_mrc2','fnd6_cptmfmq_opepsq','fnd6_incorp','fnd6_teq','fnd6_cptmfmq_lctq','fnd6_newa1v1300_gp','fnd6_loc','fnd6_acqgdwl','fnd6_fyrc','fnd6_newqv1300_intanoq','fnd6_mfma1_at','fnd6_cptmfmq_ceqq','fnd6_ein','fnd6_dlto','fnd6_newa1v1300_bkvlps',]
 '''
 
 if __name__=='__main__':
-    generator = AlphaGenerator("brain_credentials.txt", None)
-    results=generator.get_data_fields()
-    resultsid=[result['id'] for result in results]
+    # generator = AlphaGenerator("brain_credentials.txt", None)
+    # results=generator.get_data_fields()
+    # resultsid=[result['id'] for result in results]
+    resultsid=['assets','liabilities','sales','operating_income','capex','debt','ebit','ebitda','equity','enterprise_value','eps','debt_lt','assets_curr','goodwill','cash','income','revenue','cogs','cashflow_op','bookvalue_ps',
+'ppent','operating_expense','inventory','cashflow','sga_expense','debt_st','cash_st','receivable','return_equity','retained_earnings','fnd6_fopo','income_tax','liabilities_curr','pretax_income','cashflow_fin','income_beforeextra','current_ratio','sales_growth','return_assets','inventory_turnover',
+'sales_ps','cashflow_dividends','invested_capital','fnd6_drlt','cashflow_invst','employee','working_capital','depre_amort','fnd6_ivaco','fnd6_drc','fnd6_mrcta','fnd6_fatl','rd_expense','interest_expense','fnd6_ciother','fnd6_acdo','fnd6_acodo','fnd6_adesinda_curcd','fnd6_newa2v1300_rdipeps','fnd6_ci',
+'fnd6_ceql','fnd6_acox','fnd6_newqv1300_ancq','fnd6_zipcode','fnd6_intc','fnd6_capxv','fnd6_rea','fnd6_itci','fnd6_lcox','fnd6_state','fnd6_recd','fnd6_am','fnd6_ch','fnd6_xrent','fnd6_newqv1300_drltq','fnd6_txo','fnd6_exre','fnd6_cik','fnd6_newqv1300_drcq','fnd6_newqv1300_acomincq',
+'fnd6_city','fnd6_weburl','fnd6_mfmq_cshprq','fnd6_newa2v1300_ppent','fnd6_cshtrq','fnd6_cshtrq','fnd6_mrc2','fnd6_cptmfmq_opepsq','fnd6_incorp','fnd6_teq','fnd6_cptmfmq_lctq','fnd6_newa1v1300_gp','fnd6_loc','fnd6_acqgdwl','fnd6_fyrc','fnd6_newqv1300_intanoq','fnd6_mfma1_at','fnd6_cptmfmq_ceqq','fnd6_ein','fnd6_dlto','fnd6_newa1v1300_bkvlps',]
 
-    expr=[ "-is_nan({})".format(id) for id in resultsid ]
-
+    expr_list=[[ "days_from_last_change({})".format(id) for id in resultsid ]]
+    expr=[]
+    for i in range(len(expr_list[0])):
+        for j in range(len(expr_list)):
+            expr.append(expr_list[j][i])
     # 创建Pandas DataFrame
     df = pd.DataFrame({'expr':expr})
 

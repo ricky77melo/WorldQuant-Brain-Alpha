@@ -9,7 +9,7 @@ import csv
 import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
-
+import traceback
 from alpha_strategy import AlphaStrategy
 from dataset_config import get_api_settings, get_dataset_config
 
@@ -19,7 +19,7 @@ class BrainBatchAlpha:
 
     def __init__(self, credentials_file='brain_credentials.txt'):
         """初始化 API 客户端"""
-
+        self._credentials_file=credentials_file
         self.session = requests.Session()
         self._setup_authentication(credentials_file)
 
@@ -82,15 +82,19 @@ class BrainBatchAlpha:
                 writer.writerows(data)
         # 示例调用
         # 获取指标值
-        is_data=result['metrics']
-        sharpe = float(is_data.get('sharpe', 0))
-        fitness = float(is_data.get('fitness', 0))
-        turnover = float(is_data.get('turnover', 0))
-        ic_mean = float(is_data.get('margin', 0))  # margin 对应 IC Mean
-        new_alphas = [
-            {"alpha_id": result["alpha_id"], "expr": result['expression'],'sharpe':sharpe,'fitness':fitness,'turnover':turnover,'ic_mean':ic_mean},
-        ]
-        append_to_csv("alpha_list.csv", new_alphas)
+        try:
+            is_data=result['metrics']
+            sharpe = float(is_data.get('sharpe', 0))
+            fitness = float(is_data.get('fitness', 0))
+            turnover = float(is_data.get('turnover', 0))
+            ic_mean = float(is_data.get('margin', 0))  # margin 对应 IC Mean
+            new_alphas = [
+                {"alpha_id": result["alpha_id"], "expr": result['expression'],'sharpe':sharpe,'fitness':fitness,'turnover':turnover,'ic_mean':ic_mean},
+            ]
+            append_to_csv("alpha_list.csv", new_alphas)
+        except:
+            traceback.print_exc()
+            
     def _simulate_single_alpha(self, alpha):
         """模拟单个 Alpha"""
 
@@ -105,6 +109,7 @@ class BrainBatchAlpha:
 
             if sim_resp.status_code != 201:
                 print(f"❌ 模拟请求失败 (状态码: {sim_resp.status_code})")
+                self._setup_authentication(self._credentials_file)
                 return None
 
             try:
@@ -169,7 +174,7 @@ class BrainBatchAlpha:
                 print("❌ 无法获取指标数据")
                 return False
 
-            # 获取指标值
+            # 获取指标值模拟过程出错
             sharpe = float(is_data.get('sharpe', 0))
             fitness = float(is_data.get('fitness', 0))
             turnover = float(is_data.get('turnover', 0))
@@ -396,12 +401,12 @@ class BrainBatchAlpha:
                         'region': 'USA',
                         'universe': 'TOP3000',
                         'delay': 1,
-                        'decay': 0,
+                        'decay': 4,
                         'neutralization': 'SUBINDUSTRY',
                         'truncation': 0.08,
                         'pasteurization': 'ON',
                         'unitHandling': 'VERIFY',
-                        'nanHandling': 'ON',
+                        'nanHandling': 'OFF',
                         'language': 'FASTEXPR',
                         'visualization': False,
                     },
