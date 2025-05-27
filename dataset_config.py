@@ -198,7 +198,17 @@ if __name__=='__main__':
 'fnd6_ceql','fnd6_acox','fnd6_newqv1300_ancq','fnd6_zipcode','fnd6_intc','fnd6_capxv','fnd6_rea','fnd6_itci','fnd6_lcox','fnd6_state','fnd6_recd','fnd6_am','fnd6_ch','fnd6_xrent','fnd6_newqv1300_drltq','fnd6_txo','fnd6_exre','fnd6_cik','fnd6_newqv1300_drcq','fnd6_newqv1300_acomincq',
 'fnd6_city','fnd6_weburl','fnd6_mfmq_cshprq','fnd6_newa2v1300_ppent','fnd6_cshtrq','fnd6_cshtrq','fnd6_mrc2','fnd6_cptmfmq_opepsq','fnd6_incorp','fnd6_teq','fnd6_cptmfmq_lctq','fnd6_newa1v1300_gp','fnd6_loc','fnd6_acqgdwl','fnd6_fyrc','fnd6_newqv1300_intanoq','fnd6_mfma1_at','fnd6_cptmfmq_ceqq','fnd6_ein','fnd6_dlto','fnd6_newa1v1300_bkvlps',]
 
-    expr_list=[[ "days_from_last_change({})".format(id) for id in resultsid ]]
+    expr_list=[[ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 0)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 1)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 2)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 3)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 4)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 5)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 6)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 7)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 8)".format(id) for id in resultsid ],
+               [ "ts_regression (ts_zscore(cap,500), ts_zscore({},500),500,rettype = 9)".format(id) for id in resultsid ],
+               ]
     expr=[]
     for i in range(len(expr_list[0])):
         for j in range(len(expr_list)):
